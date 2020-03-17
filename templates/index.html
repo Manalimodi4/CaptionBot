@@ -1,17 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>UI Test</title>
+    <title>AI Vision</title>
 </head>
 
 <body>
-    <form action="../uploader" method="POST" enctype="multipart/form-data">
-        <input type="file">
-        <input type="submit" value="GetCaption">
+    <h4>Select a file to upload</h4>
+    <p>
+        {% with messages = get_flashed_messages() %} {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} {% endwith %}
+    </p>
+    <form method="post" action="/" enctype="multipart/form-data">
+        <input type="file" name="file" autocomplete="off" required>
+        <input type="submit" value="Submit">
     </form>
 </body>
 
