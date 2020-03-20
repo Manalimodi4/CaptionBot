@@ -2,7 +2,7 @@ import os
 #import magic
 from app import app
 from werkzeug.utils import secure_filename
-
+import requests
 import os
 from flask import request, redirect, url_for,flash
 from werkzeug.utils import secure_filename
@@ -13,6 +13,7 @@ import io
 import pickle
 from PIL import Image
 from flask import jsonify
+import urllib.request
 #from pickle import load,dump
 #from numpy import array
 from keras.layers import LSTM, Embedding, Dense,Dropout
@@ -110,8 +111,15 @@ def upload_file():
             flash(final)
             return redirect('/')
         else:
-            flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
+            flash('Allowed file types are png, jpg, jpeg, gif')
             return redirect(request.url)
+@app.route('/byurl', methods=['POST'])
+def upload_by_url():
+    if request.method == 'POST':
+         temp_url=url
+         file = Image.open(urllib.request.urlopen(temp_url))
+         upload_file(file)
+    return redirect('/')
 
 if __name__ == "__main__":
     load_model()
