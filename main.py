@@ -2,7 +2,7 @@ import os
 #import magic
 from app import app
 from werkzeug.utils import secure_filename
-
+import requests
 import os
 from flask import request, redirect, url_for,flash
 from werkzeug.utils import secure_filename
@@ -13,6 +13,7 @@ import io
 import pickle
 from PIL import Image
 from flask import jsonify
+import urllib.request
 #from pickle import load,dump
 #from numpy import array
 from keras.layers import LSTM, Embedding, Dense,Dropout
@@ -86,33 +87,46 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             photo = file.read()
-            photo = Image.open(io.BytesIO(photo))
-            photo = preprocess(photo,target_size=(299,299)) # preprocess the image
-            fea_vec = model_new.predict(photo) # Get the encoding vector for the image
-            fea_vec = np.reshape(fea_vec, fea_vec.shape[1]) # reshape from (1, 2048) to (2048, )
-            photo =fea_vec.reshape((1,2048))
-            in_text = 'startseq'
-            for i in range(max_length):
-                sequence = [wordtoix[w] for w in in_text.split() if w in wordtoix]
-                sequence = pad_sequences([sequence], maxlen=max_length)
-                yhat = model.predict([photo,sequence], verbose=0)
-                yhat = np.argmax(yhat)
-                word = ixtoword[yhat]
-                in_text += ' ' + word
-                if word == 'endseq':
-                    break
-            final = in_text.split()
-            final = final[1:-1]
-            final = ' '.join(final)
-            # return jsonify({"final":final})
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash(final)
+            flash(get_prediction(photo))
+        # uncomment 2 lines below to save the photo
+            # filename = secure_filename(file.filename)
+            # file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             return redirect('/')
         else:
-            flash('Allowed file types are txt, pdf, png, jpg, jpeg, gif')
+            flash('Allowed file types are png, jpg, jpeg, gif')
             return redirect(request.url)
 
+def get_prediction(photo):
+    photo = Image.open(io.BytesIO(photo))
+    photo = preprocess(photo, target_size=(299, 299))  # preprocess the image
+    fea_vec = model_new.predict(photo)  # Get the encoding vector for the image
+    fea_vec = np.reshape(fea_vec, fea_vec.shape[1])  # reshape from (1, 2048) to (2048, )
+    photo = fea_vec.reshape((1, 2048))
+    in_text = 'startseq'
+    for i in range(max_length):
+        sequence = [wordtoix[w] for w in in_text.split() if w in wordtoix]
+        sequence = pad_sequences([sequence], maxlen=max_length)
+        yhat = model.predict([photo, sequence], verbose=0)
+        yhat = np.argmax(yhat)
+        word = ixtoword[yhat]
+        in_text += ' ' + word
+        if word == 'endseq':
+            break
+    final = in_text.split()
+    final = final[1:-1]
+    final = ' '.join(final)
+    # return jsonify({"final":final})
+    # flash(final)
+    return final
+@app.route('/byurl', methods=['POST'])
+def upload_by_url():
+    if request.method == 'POST':
+         file = urllib.request.urlopen(request.form['imageUrl'])
+         photo = file.read()
+         flash(get_prediction(photo))
+    else:
+        flash()
+    return redirect('/')
 if __name__ == "__main__":
     load_model()
     app.run(host='0.0.0.0',port=5000,threaded=False)

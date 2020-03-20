@@ -1,59 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Demo</title>
     <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="C:\Users\HP\dev\ai\ui\main.css" />
-  </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="C:\Users\HP\dev\ai\static\main.css" />
+</head>
 
-  <!-- GitHub Corner -->
+<!-- GitHub Corner -->
 
-  <body>
-    <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">AI Vision</a>
-    </div>
-  </div>
-</nav>
-<div class="main">
-  <div class="title">
-    <h3>Image Classifier</h3>
-    <!-- <p>
+<body>
+    <div class="main">
+        <div class="title">
+           <img src="logo.svg" width="40px">
+            <h3>Image Classifier</h3>
+            <!-- <p>
       <small>A web app demo</small>
     </p> -->
-  </div>
+        </div>
 
-  <div class="panel">
-    <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
-    <label for="file-upload" id="file-drag" class="upload-box">
+        <div class="panel">
+            <input id="file-upload" class="hidden" type="file" accept="image/x-png,image/gif,image/jpeg" />
+            <label for="file-upload" id="file-drag" class="upload-box">
       <div id="upload-caption">Drop image here or click to select</div>
       <img id="image-preview" class="hidden" />
     </label>
-  </div>
-  <div style="margin-bottom: 2rem;">
-    <input type="button" value="Submit" class="button" onclick="submitImage();" />
-    <input type="button" value="Clear" class="button" onclick="clearImage();" />
-  </div>
-  
-  <div id="image-box">
-    <img id="image-display" />
-    <div id="pred-result" class="hidden"></div>
-    <svg id="loader" class="hidden" viewBox="0 0 32 32" width="32" height="32">
+        </div>
+        <div style="margin-bottom: 2rem;">
+            <input type="button" value="Submit" class="button" onclick="submitImage();" />
+            <input type="button" value="Clear" class="button" onclick="clearImage();" />
+        </div>
+
+        <div id="image-box">
+            <img id="image-display" />
+            <div id="pred-result" class="hidden"></div>
+            <svg id="loader" class="hidden" viewBox="0 0 32 32" width="32" height="32">
       <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
     </svg>
-  </div>
-</div>
+        </div>
+    </div>
 
 
-  </body>
+</body>
 
-  <footer>
+<footer>
     <script src="C:\Users\HP\dev\ai\ui\main.js"></script>
-  </footer>
+</footer>
+
 </html>
