@@ -1,5 +1,6 @@
 import os
 #import magic
+from gtts import gTTS
 from app import app
 from werkzeug.utils import secure_filename
 import requests
@@ -115,9 +116,12 @@ def get_prediction(photo):
     final = in_text.split()
     final = final[1:-1]
     final = ' '.join(final)
+    speech=gTTS(final)
+    speech.save("final.mp3")
     # return jsonify({"final":final})
     # flash(final)
     return final
+    
 @app.route('/byurl', methods=['POST'])
 def upload_by_url():
     if request.method == 'POST':
