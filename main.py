@@ -117,7 +117,7 @@ def get_prediction(photo):
     final = final[1:-1]
     final = ' '.join(final)
     speech=gTTS(final)
-    speech.save("final.mp3")
+    speech.save("static/audio.mp3")
     # return jsonify({"final":final})
     # flash(final)
     return final
