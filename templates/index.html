@@ -64,8 +64,8 @@
                 <p class="lead ">I describe the image as:</p>
                 <hr class="my-2">
                 <p class="lead mb-1">{{ message }}</p>
-                <a href="/" class="btn btn-primary mt-1" role="button">Try Another</a>
-                <audio controls autoplay>
+                <a href="/" class="btn btn-primary mt-3" role="button">Try Another</a>
+                <audio controls autoplay class="mt-1" style="display:none">
                         <source src="{{url_for('static',filename='audio.mp3')}}" type="audio/mpeg">
                         Your browser does not support the audio element.
                 </audio>
